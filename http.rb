@@ -9,7 +9,7 @@ class JenkinsHTTP
        http.use_ssl = true
        http.verify_mode = OpenSSL::SSL::VERIFY_NONE
 
-       req = Net::HTTP::GET.new(uri.path)
+       req = Net::HTTP::Get.new(uri.path)
        res = http.request(req)
 
    end
