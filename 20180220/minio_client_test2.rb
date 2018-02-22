@@ -12,12 +12,31 @@ client = Aws::S3::Client.new(
   region: 'us-east-1',
   force_path_style: true
 )
-
 resource = Aws::S3::Resource.new(client: client)
-obj = resource.bucket('sample').object('20180219.txt')
+bu_str = "bucket720180222"
+
+resource.create_bucket({
+  acl: "private", 
+  bucket: bu_str, # required
+  create_bucket_configuration: {
+    location_constraint: "EU",
+  },
+  grant_full_control: "GrantFullControl",
+  grant_read: "GrantRead",
+  grant_read_acp: "GrantReadACP",
+  grant_write: "GrantWrite",
+  grant_write_acp: "GrantWriteACP",
+})
+
+obj = resource.bucket(bu_str).object("folder/20180219.txt")
 str = "sample"
 obj.put(body: str)
 
+buk = resource.bucket(bu_str)
+#buk.delete
+
+object = client.get_object({bucket: "bucketname",key: "20180219.txt"})
+puts object.body.read
 
 #res = client.list_buckets
 #res.buckets.each do |bucket|
